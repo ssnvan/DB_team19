@@ -29,34 +29,42 @@
 
 <%
 String categoryID = request.getParameter("category");
-String query = "select * from Category where Category_ID = \""+categoryID+"\"";
-pstmt = conn.prepareStatement(query);
-rs = pstmt.executeQuery();
-while(rs.next()){
-String category = rs.getString(2)+"-"+rs.getString(3)+"-"+rs.getString(4);
-out.println("Selected Category : "+category);
+String Product_name = request.getParameter("Product_name");
+String query;
+if(categoryID != null){
+	query = "select * from Category where Category_ID = \""+categoryID+"\"";
+	pstmt = conn.prepareStatement(query);
+	rs = pstmt.executeQuery();
+	while(rs.next()){
+	String category = rs.getString(2)+"-"+rs.getString(3)+"-"+rs.getString(4);
+	out.println("Selected Category : "+category);
+	out.println("</br>");
+	}
+	query = "select * from Product where Category_ID = \""+categoryID+"\"";
+}else{
+	query = "select * from Product where Product_name like \"%"+Product_name+"%\"";
+	out.println("Search Keyword : "+Product_name);
+	out.println("</br>");
 }
-query = "select * from Product where Category_ID = \""+categoryID+"\"";
+
+
+%>
+<form action = "item.jsp" method = "POST">
+
+<%
+
 pstmt = conn.prepareStatement(query);
 rs = pstmt.executeQuery();
 ResultSetMetaData rsmd = rs.getMetaData();
 int cnt = rsmd.getColumnCount();
-
-out.println("<table border = \"1\">");
-out.println("<th>"+rsmd.getColumnName(5)+"</th>");
-out.println("<th>"+rsmd.getColumnName(2)+"</th>");
-out.println("<th>"+rsmd.getColumnName(3)+"</th>");
-out.println("<th>"+rsmd.getColumnName(6)+"</th>");
-out.println("<th>"+rsmd.getColumnName(7)+"</th>");
 while(rs.next()){
-	out.println("<tr>");
-	out.println("<td>"+rs.getString(5)+"</td>");
-	out.println("<td>"+rs.getInt(2)+"</td>");
-	out.println("<td>"+rs.getInt(3)+"</td>");
-	out.println("<td>"+rs.getString(6)+"</td>");
-	out.println("<td>"+rs.getString(7)+"</td>");
-	out.println("</tr>");
+	out.println("<input type = \"radio\" name = \"Product_code\" value=\""+rs.getString(1)+"\">"+rs.getString(5));
+	out.println("</br>");
 }
+
 %>
+
+<input type = "submit" value = "Select"/>
+</form>
 </body>
 </html>
