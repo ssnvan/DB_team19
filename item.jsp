@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ShoppingmallX - Category</title>
+<title>Item Description</title>
 </head>
 <body>
 
@@ -22,46 +22,41 @@
     try{
         Class.forName(JDBC_DRIVER);
         conn = DriverManager.getConnection(url, user,pass);
-        System.out.println("connected");
     }catch(Exception e){
         System.out.println(e.getMessage());
     }
 %>
-
-<h2>Select Category</h2>
-</br>
-
-<form action = "item_list.jsp" method = "POST">
-Search item: <input type = "text" name = "Product_name">
-<input type = "submit" value = "검색"/>
-</form>
-</br>
-<h3>Select Category</h3>
-<form action = "item_list.jsp" method = "POST">
-
-<select name = "category">
 <%
-String query = "select * from Category";
+String Product_code = request.getParameter("Product_code");
+String query;
+query = "select Product_name from Product where Product_code = \""+Product_code+"\"";
+	
+pstmt = conn.prepareStatement(query);
+rs = pstmt.executeQuery();
+while(rs.next())
+	out.println("Selected Product : "+rs.getString(1));
+out.println("</br>");
+	
+query = "select * from Product where Product_code = \""+Product_code+"\"";
+	
 pstmt = conn.prepareStatement(query);
 rs = pstmt.executeQuery();
 ResultSetMetaData rsmd = rs.getMetaData();
 
-int cnt = rsmd.getColumnCount();
-
 while(rs.next()){
-	out.println("<option value = \""+rs.getString(1)+"\">"+rs.getString(2)+"-"+rs.getString(3)+"-"+rs.getString(4)+"</option>");
+	out.println(rsmd.getColumnName(5)+" : "+rs.getString(5)+"</br>");
+	out.println(rsmd.getColumnName(2)+" : "+rs.getInt(2)+"</br>");
+	out.println(rsmd.getColumnName(3)+" : "+rs.getInt(3)+"</br>");
+	out.println(rsmd.getColumnName(6)+" : "+rs.getString(6)+"</br>");
+	out.println(rsmd.getColumnName(7)+" : "+rs.getString(7)+"</br>");
+
 }
+
+
 %>
-
-
-</select>
-
-<input type = "submit" value = "선택"/>
+</br>
+<form action = "buy.jsp" method = "POST">
+<input type = "submit" value = "Buy"/>
 </form>
-<% 
-pstmt.close();
-conn.close();
-%>
-
 </body>
-</html> 
+</html>
