@@ -1,0 +1,104 @@
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+pageEncoding="EUC-KR"%>
+<%@ page language = "java" import="java.text.*, java.sql.*" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2>Lab #9: Repeating Lab #5-3 via JSP</h2>
+<% 
+	String serverIP="localhost";
+	String strSID="orcl";
+	String portNum="1521";
+	String url="jdbc:oracle:thin:@"+serverIP+":"+portNum+":"+strSID;
+	String user="knu";
+	String pass="comp322";
+	Connection conn;
+	PreparedStatement pstmt;
+	ResultSet rs;
+	Class.forName("oracle.jdbc.driver.OracleDriver");
+	conn = DriverManager.getConnection(url, user, pass);
+
+	String query="SELECT fname, minit, lname "
+		+"FROM EMPLOYEE WHERE dno = " + (String)request.getParameter("department_number")
+		+" and salary >=" + (String)request.getParameter("salary") 
+		+" and dno = (SELECT Dnum FROM project WHERE Pname = '" + (String)request.getParameter("project_name")
+		+ "') order by lname asc";
+	pstmt = conn.prepareStatement(query);
+	rs=pstmt.executeQuery();
+%>
+<h4>---- Q1 Result ----</h4>
+<%
+	out.println("<table border=\"1\">");
+	ResultSetMetaData rsmd = rs.getMetaData();
+	int cnt = rsmd.getColumnCount();
+	for(int i=1; i<=cnt;i++){
+		out.println("<th>" + rsmd.getColumnName(i)+"</th>");
+	}
+	while(rs.next()){
+		out.println("<tr>");
+		out.println("<td>"+rs.getString(1)+"</td>");
+		out.println("<td>"+rs.getString(2)+"</td>");
+		out.println("<td>"+rs.getString(3)+"</td>");
+		out.println("</tr>");		
+	}
+	out.println("</table>");
+%>
+
+<%
+	query="SELECT fname, lname "
+		+"FROM EMPLOYEE "+ "WHERE super_ssn = " + (String)request.getParameter("supervisor_SSN")
+		+" and address LIKE '%" + (String)request.getParameter("address") + "%'";
+	pstmt = conn.prepareStatement(query);
+	rs=pstmt.executeQuery();
+%>
+<h4>---- Q2 Result ----</h4>
+<%
+	out.println("<table border=\"1\">");
+	rsmd = rs.getMetaData();
+	cnt = rsmd.getColumnCount();
+	for(int i=1; i<=cnt;i++){
+		out.println("<th>" + rsmd.getColumnName(i)+"</th>");
+	}
+	while(rs.next()){
+		out.println("<tr>");
+		out.println("<td>"+rs.getString(1)+"</td>");
+		out.println("<td>"+rs.getString(2)+"</td>");
+		out.println("</tr>");		
+	}
+	out.println("</table>");
+
+%>
+
+<%
+	query="SELECT lname "
+		+"FROM EMPLOYEE WHERE dno = (SELECT Dnum FROM project WHERE Pname = '"
+		+ (String)request.getParameter("project_name3") + "') order by lname desc";
+	pstmt = conn.prepareStatement(query);
+	rs=pstmt.executeQuery();	
+%>
+	<h4>---- Q3 Result ----</h4>
+<%
+	out.println("<table border=\"1\">");
+	rsmd = rs.getMetaData();
+	cnt = rsmd.getColumnCount();
+	for(int i=1; i<=cnt;i++){
+		out.println("<th>" + rsmd.getColumnName(i)+"</th>");
+	}
+	while(rs.next()){
+		out.println("<tr>");
+		out.println("<td>"+rs.getString(1)+"</td>");
+		out.println("</tr>");		
+	}
+	out.println("</table>");
+
+	pstmt.close();
+	conn.close();
+%>
+
+
+</body>
+</html>
