@@ -7,12 +7,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h2>PASSWORD EDIT</h2>
-<form action="password_edit_2.jsp">
-		PASSWORD : <input type = "text" name ="pw_e">
-		<input type="submit" value="EDIT">
-		<br />
-</form>
-<a href="login_success.jsp">BACK</a>
+<h2>member info edit Failed</h2>
+<%
+	out.println("You entered an invalid value");	
+%>
+<br />
+<a href="member_edit.jsp">BACK</a>
 </body>
 </html>

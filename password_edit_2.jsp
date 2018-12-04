@@ -8,6 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+
 <%
 	String DB_URL = "jdbc:mysql://localhost:3306/shoppingmallX?characterEncoding=UTF-8&serverTimezone=UTC";
 	String DB_USER = "root";
@@ -21,35 +22,14 @@
 	
 	stmt = conn.createStatement();
 
-	
-	
-	String m_address=(String)request.getParameter("m_address");
-	String m_phone=(String)request.getParameter("m_phone");
-	String m_sex=(String)request.getParameter("m_sex");
-	String m_age=(String)request.getParameter("m_age");
-	String m_job=(String)request.getParameter("m_job");
-	String m_type=(String)request.getParameter("m_type");
-	int age = -1;
-	try{
-		age = Integer.parseInt(m_age);
-	}catch(NumberFormatException e){
-		System.out.println(e.getMessage());
-	}
 
-	boolean s_value=false;
-	if(m_sex.equals("F") || m_sex.equals("T")){
-		s_value = false;
+	String pw_e = request.getParameter("pw_e");
+
+	if( pw_e.length() >4 || pw_e.length()<0 ){
+		response.sendRedirect("password_edit.jsp");
 	}
 	else{
-		s_value=true;
-	}
-	
-	if( m_address.length() < 10 || m_phone.length() < 10 || s_value || (age <0 && age>100) ){
-		response.sendRedirect("member_edit.jsp");
-	}
-	else{
-		String query="UPDATE Customer set Address = "  + m_address + ", Phone =" + m_phone + 
-				", Sex = '" + m_sex + "', Age = " +age + ", Job = " + m_job + ", Type ='" + m_type +"'"
+		String query="UPDATE Customer set PW = " + pw_e
 				+" WHERE Customer_ID = " + session.getAttribute("id");
 		
 		pstmt = conn.prepareStatement(query);
@@ -73,7 +53,7 @@
 		}
 	}
 	
+	
 %>
-
 </body>
 </html>

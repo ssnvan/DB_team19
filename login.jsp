@@ -40,41 +40,54 @@
 
 	if( isid && ispw ){
 		out.println("login admin");
+		response.sendRedirect("Admin_page.jsp");
+		
+	}
+	else if( isid && !ispw ){
+		response.sendRedirect("start.html");
 	}
 	else{
 		String query="SELECT PW FROM Customer WHERE Customer_ID = " + id;
 		pstmt = conn.prepareStatement(query);
-		rs=pstmt.executeQuery();
-
-		
-		String t_pw="";
-		ResultSetMetaData rsmd = rs.getMetaData();
-
-		int cnt = rsmd.getColumnCount();
-		while(rs.next()){
-			t_pw  = (String)rs.getString(1);
-		}
-		
-		
-		out.println("after query");
-		
-		boolean ispw2=false;
-		
 		try{
-			ispw2 = pw.equals(t_pw);
-		}catch(NullPointerException e){
-			out.println("null");
+			rs=pstmt.executeQuery();
+			
+			String t_pw="";
+			ResultSetMetaData rsmd = rs.getMetaData();
+
+			int cnt = rsmd.getColumnCount();
+			while(rs.next()){
+				t_pw  = (String)rs.getString(1);
+			}
+			
+			
+			out.println("after query");
+			
+			boolean ispw2=false;
+			
+			try{
+				ispw2 = pw.equals(t_pw);
+			}catch(NullPointerException e){
+				out.println("null");
+			}
+			
+			out.println(ispw2 + t_pw);
+			if( ispw2 ){
+				out.println("login ok");
+				session.setAttribute("id", id);
+				response.sendRedirect("login_success.jsp");
+			}
+			else{		
+				response.sendRedirect("start.html");
+			}
+			
+			
+		}catch(com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException e){
+			System.out.println(e.getMessage());
 		}
+
 		
-		out.println(ispw2 + t_pw);
-		if( ispw2 ){
-			out.println("login ok");
-			session.setAttribute("id", id);
-			response.sendRedirect("login_success.jsp");
-		}
-		else{		
-			response.sendRedirect("start.html");
-		}
+		
 	}
 	
 	

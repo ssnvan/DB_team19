@@ -7,6 +7,11 @@
 <title>Insert title here</title>
 </head>
 <body>
+<h2>MEMBER INFO EDIT</h2>
+<h4> Address length: 0 ~ 10
+Phone length: 0 ~ 10
+Sex: F or T
+</h4>
 <form action="member_edit_2.jsp">
 		Address : <input type = "text" name ="m_address">
 		<br />
@@ -18,7 +23,7 @@
 		<br />
 		Job : <input type = "text" name ="m_job">
 		<br />
-		Type : <select name ="type">
+		Type : <select name ="m_type">
 			<option value="wholesaler">wholesaler</option>
 			<option value="retailer">retailer</option>
 			<option value="etc" selected>etc</option>
@@ -27,6 +32,7 @@
 		
 		<input type="submit" value="EDIT">
 		<br />
+		<a href="login_success.jsp">BACK</a>
 </form>
 </body>
 </html>

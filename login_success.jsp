@@ -16,12 +16,14 @@
 		out.println("id is null");
 	}
 %>
-
+<br />
 <a href=logout.jsp>LOG OUT</a>
 <br />
 <a href=member_edit.jsp>MEMBER EDIT</a>
 <br />
 <a href=password_edit.jsp>PASSWORD EDIT</a>
+<br />
+<a href=ordered_products_list.jsp>PASSWORD EDIT</a>
 <br />
 </body>
 </html>
