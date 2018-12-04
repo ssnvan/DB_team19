@@ -111,41 +111,9 @@ while(rs.next()){
 	out.println("Total Sales : "+rs.getInt(1));
 }
 %>
-<form action="/action_page.php">
-  Birthday:
-  <input type="date" name="bday">
-  <input type="submit">
-</form>
-
-
-
-<form action = "total_sales.jsp" method = "POST">
-<select name = "year_1" id="testid">
-<option value = '' selected>--select Year--</option>
-<%
-for(int i=2014;i<=2018;i++){
-	out.println("<option value = \""+i+"\">"+i+"</option>");
-}
-%>
-</select>
-<select name = "month_1">
-<option value = '' selected>--select Month--</option>
-<%
-for(int i=1;i<=12;i++){
-	out.println("<option value = \""+i+"\">"+i+"</option>");
-}
-%>
-</select>
-<script type="text/javascript">
-var temp = document.getElementByID("testid");
-alert(temp.oprions[temp.selectedIndex].text);
-</script>
-
-<input type = "submit" value = "Search Monthly Sales"/>
-</form>
-
-
-<form action = "total_sales.jsp" method = "POST">
+</table>
+</br>
+<form action="monthly_sales.jsp">
 <select name = "year">
 <option value = '' selected>--select Year--</option>
 <%
@@ -161,18 +129,18 @@ for(int i=1;i<=12;i++){
 	out.println("<option value = \""+i+"\">"+i+"</option>");
 }
 %>
-</select>
-<select name = "date">
-<option value = '' selected>--select Date--</option>
-<%
-for(int i=1;i<=31;i++){
-	out.println("<option value = \""+i+"\">"+i+"</option>");
-}
-%>
-</select>
-<input type = "submit" value = "Search Date Sales"/>
+<input type = "submit" value = "Search Monthly Sales"/>
 </form>
 
+
+<form action="date_sales.jsp">
+  <input type="date" name="date">
+  <input type="submit" value = "Search Date Sales">
+</form>
+
+
+
+<form action = "total_sales.jsp" method = "POST">
 
 <h2>Number of times that each Delivery Delivered</h2></br>
 
