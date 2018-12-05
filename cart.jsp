@@ -64,7 +64,7 @@
 <option value="Logen">Logen</option>
 </select>
 
-<input type = "submit" value = "Insert into Cart"/>
+<input type = "submit" value = "Order"/>
 </form>
  
 
