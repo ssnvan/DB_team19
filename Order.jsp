@@ -67,22 +67,34 @@
 	while(rs.next()){
 		int quantity = rs.getInt(2);
 		String code = rs.getString(3);
-		query = "insert into Ordered_products values('"+OrderID+"',"+quantity+",'"+code+"')";
-		System.out.println(query);
-		stmt = conn.createStatement();
-	    res = stmt.executeUpdate(query);
+		int unit=0, inventory=0;
+		query = "select Unit, Inventory from Product where Product_code='"+code+"'";
+		pstmt = conn.prepareStatement(query);
+		rs = pstmt.executeQuery();
+		while(rs.next()){
+			unit = rs.getInt(1);
+			inventory=rs.getInt(2);
+		}
+		if(inventory < quantity * unit){
+			out.println("There is no sufficient inventory...");
+		}else{
+			query = "insert into Ordered_products values('"+OrderID+"',"+quantity+",'"+code+"')";
+			System.out.println(query);
+			stmt = conn.createStatement();
+	    	res = stmt.executeUpdate(query);
+	    	if(res>0){
+	    		query = "delete from Contains where Cart_code='"+cart+"'";
+	    		stmt = conn.createStatement();
+	    	    res = stmt.executeUpdate(query);
+	    		query = "delete from Cart_orders where Cart_code = '"+cart+"'";
+	    		res = stmt.executeUpdate(query);		
+	    		out.println("Successfully Ordered!");
+	    	}else{
+	    		out.println("Error Ordering...");
+	    	}
+		}
 	}
-	if(res>0){
-		out.println("Successfully Ordered!");
-	}else{
-		out.println("Error Ordering...");
-	}
-	query = "delete from Contains where Cart_code='"+cart+"'";
-	stmt = conn.createStatement();
-    res = stmt.executeUpdate(query);
-	query = "delete from Cart_orders where Cart_code = '"+cart+"'";
-	res = stmt.executeUpdate(query);		
-			
+	
 	
 %>
 
