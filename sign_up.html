@@ -7,26 +7,36 @@
 <body>
 <form action="sign_up.jsp">
 		ID  : <input type = "text" name = "s_id">
+		<th>(length: 1 ~ 10)</th>
 		<br />
 		PW : <input type = "text" name ="s_pw">
+		<th>(length: 1 ~ 10)</th>
 		<br />
 		Address : <input type = "text" name ="s_address">
+		<th>(length: 1 ~ 10)</th>
 		<br />
 		Phone : <input type = "text" name ="s_phone">
+		<th>(length: 1 ~ 13)</th>
 		<br />
 		Sex : <input type = "text" name ="s_sex">
+		<th>(F or M)</th>
 		<br />
 		Age : <input type = "text" name ="s_age">
+		<th>(0~100)</th>
 		<br />
 		Job : <input type = "text" name ="s_job">
+		<th>(length: 1 ~ 15)</th>
 		<br />
 		Type : <select name ="s_type">
 			<option value="wholesaler">wholesaler</option>
 			<option value="retailer">retailer</option>
 			<option value="etc" selected>etc</option>
 		</select>
+		
+		
 		<input type="submit" value="SIGN UP">
 		<br />
-	</form>
+		<a href="login_success.jsp">BACK</a>
+</form>
 </body>
 </html>

@@ -30,7 +30,6 @@
     String id="";
     id = (String)session.getAttribute("id");
     String query = null;
-
 %>
 	<table border="1">
 	<th>Product code</th>

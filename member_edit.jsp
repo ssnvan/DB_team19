@@ -8,20 +8,21 @@
 </head>
 <body>
 <h2>MEMBER INFO EDIT</h2>
-<h4> Address length: 0 ~ 10
-Phone length: 0 ~ 10
-Sex: F or 
-</h4>
 <form action="member_edit_2.jsp">
 		Address : <input type = "text" name ="m_address">
+		<th>(length: 1 ~ 10)</th>
 		<br />
 		Phone : <input type = "text" name ="m_phone">
+		<th>(length: 1 ~ 13)</th>
 		<br />
 		Sex : <input type = "text" name ="m_sex">
+		<th>(F or M)</th>
 		<br />
 		Age : <input type = "text" name ="m_age">
+		<th>(0~100)</th>
 		<br />
 		Job : <input type = "text" name ="m_job">
+		<th>(length: 1 ~ 15)</th>
 		<br />
 		Type : <select name ="m_type">
 			<option value="wholesaler">wholesaler</option>
