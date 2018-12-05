@@ -10,7 +10,7 @@
 <h2>MEMBER INFO EDIT</h2>
 <h4> Address length: 0 ~ 10
 Phone length: 0 ~ 10
-Sex: F or T
+Sex: F or 
 </h4>
 <form action="member_edit_2.jsp">
 		Address : <input type = "text" name ="m_address">
