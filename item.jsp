@@ -27,32 +27,49 @@
     }
 %>
 <%
-	String Product_code = request.getParameter("Product_code");
-	String query;
-	query = "select Product_name from Product where Product_code = \""+Product_code+"\"";
-		
-	pstmt = conn.prepareStatement(query);
-	rs = pstmt.executeQuery();
-	while(rs.next())
-		out.println("Selected Product : "+rs.getString(1));
-	out.println("</br>");
-		
-	query = "select * from Product where Product_code = \""+Product_code+"\"";
-		
-	pstmt = conn.prepareStatement(query);
-	rs = pstmt.executeQuery();
-	ResultSetMetaData rsmd = rs.getMetaData();
-	while(rs.next()){
-		out.println(rsmd.getColumnName(5)+" : "+rs.getString(5)+"</br>");
-		out.println(rsmd.getColumnName(2)+" : "+rs.getInt(2)+"</br>");
-		out.println(rsmd.getColumnName(3)+" : "+rs.getInt(3)+"</br>");
-		out.println(rsmd.getColumnName(6)+" : "+rs.getString(6)+"</br>");
-		out.println(rsmd.getColumnName(7)+" : "+rs.getString(7)+"</br>");
-	}
+String Product_code = request.getParameter("Product_code");
+String query;
+query = "select Product_name from Product where Product_code = \""+Product_code+"\"";
+	
+pstmt = conn.prepareStatement(query);
+rs = pstmt.executeQuery();
+while(rs.next())
+	out.println("Selected Product : "+rs.getString(1));
+out.println("</br>");
+	
+query = "select * from Product where Product_code = \""+Product_code+"\"";
+	
+pstmt = conn.prepareStatement(query);
+rs = pstmt.executeQuery();
+ResultSetMetaData rsmd = rs.getMetaData();
+int unit=1;
+String standard="";
+while(rs.next()){
+	out.println(rsmd.getColumnName(5)+" : "+rs.getString(5)+"</br>");
+	out.println(rsmd.getColumnName(2)+" : "+rs.getInt(2)+"</br>");
+	out.println(rsmd.getColumnName(3)+" : "+rs.getInt(3)+"</br>");
+	out.println(rsmd.getColumnName(6)+" : "+rs.getString(6)+"</br>");
+	out.println(rsmd.getColumnName(7)+" : "+rs.getString(7)+"</br>");
+	unit = rs.getInt(3);
+	standard = rs.getString(6);
+}
+
+
 %>
-<br />
-<form action = "buy.jsp" method = "POST">
-<input type = "submit" value = "Buy"/>
+</br>
+<form action = "InsertCart.jsp" method = "POST">
+<select name = "order_quantity">
+<option value = '' selected>--select--</option>
+<%
+for(int i=1;i<=20;i++){
+	out.println("<option value=\""+Product_code+","+i+"\">"+i+"  ("+i*unit + standard+")"+"</option>");
+}
+
+%>
+</select>
+
+<input type = "submit" value = "Insert into Cart"/>
 </form>
+
 </body>
 </html>
