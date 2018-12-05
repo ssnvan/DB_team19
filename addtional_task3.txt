@@ -1,0 +1,32 @@
+새로운 고객의 기준은
+현재 장바구니에 아무것도 담겨있지 않으면서, 예전에 주문한 기록이 없는사람 이다.
+
+1.과거에 주문빈도가 제일 많은 상품 2개
+
+select count(*) as num,Product_code from Ordered_products group by Product_code order by num desc limit 2;
+
+2. 현재 전체 고객의 장바구니에 빈도가 제일 많은 상품 2개
+
+select count(*) as num, Product_code from Cart_orders group by Product_code order by num desc limit 2;
+
+3. 같은 customer type에서 주문빈도가 제일 많은 상품2개를 추천한다.
+
+
+select count(*) as num , OP.Product_code from Ordered_products OP
+where OP.OrderID in(
+select OrderID from Orders
+where Customer_Id in (select Customer_ID from Customer where Type='etc')
+)
+group by OP.Product_code
+order by num desc limit 2;
+
+
+
+
+select count(*) as num , OP.Product_code from Ordered_products OP
+where OP.OrderID in(
+select OrderID from Orders
+where Customer_Id in (select Customer_ID from Customer where Type is null)
+)
+group by OP.Product_code
+order by num desc limit 2;
