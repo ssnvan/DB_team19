@@ -12,9 +12,9 @@
 <%
     String serverIP="localhost";
     String portNum="3306";
-    String url="jdbc:mysql://localhost:3306/shop?characterEncoding=UTF-8&serverTimezone=UTC";
+    String url="jdbc:mysql://localhost:3306/shoppingmallX?characterEncoding=UTF-8&serverTimezone=UTC";
     String user="root";
-    String pass="000000";
+    String pass="8888";
     Connection conn=null;
     PreparedStatement pstmt;
     ResultSet rs;
@@ -42,21 +42,34 @@ query = "select * from Product where Product_code = \""+Product_code+"\"";
 pstmt = conn.prepareStatement(query);
 rs = pstmt.executeQuery();
 ResultSetMetaData rsmd = rs.getMetaData();
-
+int unit=1;
+String standard="";
 while(rs.next()){
 	out.println(rsmd.getColumnName(5)+" : "+rs.getString(5)+"</br>");
 	out.println(rsmd.getColumnName(2)+" : "+rs.getInt(2)+"</br>");
 	out.println(rsmd.getColumnName(3)+" : "+rs.getInt(3)+"</br>");
 	out.println(rsmd.getColumnName(6)+" : "+rs.getString(6)+"</br>");
 	out.println(rsmd.getColumnName(7)+" : "+rs.getString(7)+"</br>");
-
+	unit = rs.getInt(3);
+	standard = rs.getString(6);
 }
 
 
 %>
 </br>
-<form action = "buy.jsp" method = "POST">
-<input type = "submit" value = "Buy"/>
+<form action = "InsertCart.jsp" method = "POST">
+<select name = "order_quantity">
+<option value = '' selected>--select--</option>
+<%
+for(int i=1;i<=20;i++){
+	out.println("<option value=\""+Product_code+","+i+"\">"+i+"  ("+i*unit + standard+")"+"</option>");
+}
+
+%>
+</select>
+
+<input type = "submit" value = "Insert into Cart"/>
 </form>
+
 </body>
 </html>
