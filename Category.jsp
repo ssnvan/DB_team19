@@ -12,9 +12,9 @@
 <%
     String serverIP="localhost";
     String portNum="3306";
-    String url="jdbc:mysql://localhost:3306/shop?characterEncoding=UTF-8&serverTimezone=UTC";
+    String url="jdbc:mysql://localhost:3306/shoppingmallX?characterEncoding=UTF-8&serverTimezone=UTC";
     String user="root";
-    String pass="000000";
+    String pass="8888";
     Connection conn=null;
     PreparedStatement pstmt;
     ResultSet rs;
@@ -29,28 +29,26 @@
 %>
 
 <h2>Select Category</h2>
-</br>
+<br />
 
 <form action = "item_list.jsp" method = "POST">
 Search item: <input type = "text" name = "Product_name">
 <input type = "submit" value = "검색"/>
 </form>
-</br>
+<br />
 <h3>Select Category</h3>
 <form action = "item_list.jsp" method = "POST">
 
 <select name = "category">
 <%
-String query = "select * from Category";
-pstmt = conn.prepareStatement(query);
-rs = pstmt.executeQuery();
-ResultSetMetaData rsmd = rs.getMetaData();
-
-int cnt = rsmd.getColumnCount();
-
-while(rs.next()){
-	out.println("<option value = \""+rs.getString(1)+"\">"+rs.getString(2)+"-"+rs.getString(3)+"-"+rs.getString(4)+"</option>");
-}
+	String query = "select * from Category";
+	pstmt = conn.prepareStatement(query);
+	rs = pstmt.executeQuery();
+	ResultSetMetaData rsmd = rs.getMetaData();
+	int cnt = rsmd.getColumnCount();
+	while(rs.next()){
+		out.println("<option value = \""+rs.getString(1)+"\">"+rs.getString(2)+"-"+rs.getString(3)+"-"+rs.getString(4)+"</option>");
+	}
 %>
 
 

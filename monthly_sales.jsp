@@ -11,9 +11,9 @@
 <%
     String serverIP="localhost";
     String portNum="3306";
-    String url="jdbc:mysql://localhost:3306/shop?characterEncoding=UTF-8&serverTimezone=UTC";
+    String url="jdbc:mysql://localhost:3306/shoppingmallX?characterEncoding=UTF-8&serverTimezone=UTC";
     String user="root";
-    String pass="000000";
+    String pass="8888";
     Connection conn=null;
     PreparedStatement pstmt;
     Statement stmt;
@@ -45,23 +45,27 @@
 		int total=0;
 		
 		query = "select O.Order_Date,OP.Product_code, OP.Product_quantity, P.Price"
-				+" from Orders O, Ordered_Products OP, Product P";
+				+" from Orders O, Ordered_products OP, Product P";
 		query += " where O.OrderID = OP.OrderID and O.Order_Date>=\""+start+ "\" and O.Order_Date <\""+end+"\"";
 		query += " and P.Product_code = OP.Product_code";
-		pstmt = conn.prepareStatement(query);
-		rs = pstmt.executeQuery();
-		while(rs.next()){
-			total += rs.getInt(3)*rs.getInt(4);
-		}
-		if(total==0){
-			out.println("There is no Sales in "+year+"-"+month);
-		}else{
-			out.println("Total Sales of "+year+"-"+month+" : "+total);
+		try{
+			pstmt = conn.prepareStatement(query);
+			rs = pstmt.executeQuery();
+			while(rs.next()){
+				total += rs.getInt(3)*rs.getInt(4);
+			}
+			if(total==0){
+				out.println("There is no Sales in "+year+"-"+month);
+			}else{
+				out.println("Total Sales of "+year+"-"+month+" : "+total);
+			}
+		}catch(NullPointerException e){
+			out.println(e.getMessage());
+		}catch(com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException e){
+			out.println(e.getMessage());
 		}
 		
 	}
-
-
 %>
 </body>
 </html>

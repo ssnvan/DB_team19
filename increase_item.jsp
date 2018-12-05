@@ -12,9 +12,9 @@
 <%
     String serverIP="localhost";
     String portNum="3306";
-    String url="jdbc:mysql://localhost:3306/shop?characterEncoding=UTF-8&serverTimezone=UTC";
+    String url="jdbc:mysql://localhost:3306/shoppingmallX?characterEncoding=UTF-8&serverTimezone=UTC";
     String user="root";
-    String pass="000000";
+    String pass="8888";
     Connection conn=null;
     PreparedStatement pstmt;
     Statement stmt;
@@ -31,18 +31,22 @@
     String Product_num = request.getParameter("product_increase_val");
 	String query = "update Product set Inventory=Inventory+"+Product_num+"*unit where Product_code = \""+Product_code+"\"";
 	//System.out.println(query);
-	stmt = conn.createStatement();
-	int res = stmt.executeUpdate(query);
-	query ="select Product_name, Unit from Product where Product_code = \""+Product_code+"\"";
-	pstmt = conn.prepareStatement(query);
-	rs = pstmt.executeQuery();
-	if(res >0){
-		while(rs.next()){
-			out.println("Product "+rs.getString(1) +" Increased inventory by "+rs.getInt(2)*Integer.parseInt(Product_num)+" ("+Integer.parseInt(Product_num)+" Units)");
+	try{
+		stmt = conn.createStatement();
+		int res = stmt.executeUpdate(query);
+		query ="select Product_name, Unit from Product where Product_code = \""+Product_code+"\"";
+		pstmt = conn.prepareStatement(query);
+		rs = pstmt.executeQuery();
+		if(res >0){
+			while(rs.next()){
+				out.println("Product "+rs.getString(1) +" Increased inventory by "+rs.getInt(2)*Integer.parseInt(Product_num)+" ("+Integer.parseInt(Product_num)+" Units)");
+			}
 		}
-	}
-	else{
-			out.println("Error increasing inventory...");
+		else{
+				out.println("Error increasing inventory...");
+		}
+	}catch(NullPointerException e){
+		out.println(e.getMessage());
 	}
 %>
 
