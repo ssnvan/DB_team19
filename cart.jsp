@@ -12,9 +12,9 @@
 <%
     String serverIP="localhost";
     String portNum="3306";
-    String url="jdbc:mysql://localhost:3306/shop?characterEncoding=UTF-8&serverTimezone=UTC";
+    String url="jdbc:mysql://localhost:3306/shoppingmallX?characterEncoding=UTF-8&serverTimezone=UTC";
     String user="root";
-    String pass="000000";
+    String pass="8888";
     Connection conn=null;
     PreparedStatement pstmt;
     int res;
