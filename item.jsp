@@ -53,10 +53,8 @@ while(rs.next()){
 	unit = rs.getInt(3);
 	standard = rs.getString(6);
 }
-
-
 %>
-</br>
+<br />
 <form action = "InsertCart.jsp" method = "POST">
 <select name = "order_quantity">
 <option value = '' selected>--select--</option>
@@ -64,7 +62,6 @@ while(rs.next()){
 for(int i=1;i<=20;i++){
 	out.println("<option value=\""+Product_code+","+i+"\">"+i+"  ("+i*unit + standard+")"+"</option>");
 }
-
 %>
 </select>
 

@@ -36,7 +36,7 @@
 		out.println("Please give input...");
 	}else{
 		query = "select O.Order_Date,OP.Product_code, OP.Product_quantity, P.Price"
-				 +" from Orders O, Ordered_Products OP, Product P"
+				 +" from Orders O, Ordered_products OP, Product P"
 				 +" where O.OrderID = OP.OrderID and O.Order_Date=\""+date+"\""
 				 +" and P.Product_code = OP.Product_code";
 		pstmt = conn.prepareStatement(query);

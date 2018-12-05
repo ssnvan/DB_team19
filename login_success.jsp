@@ -23,7 +23,14 @@
 <br />
 <a href=password_edit.jsp>PASSWORD EDIT</a>
 <br />
-<a href=ordered_products_list.jsp>PASSWORD EDIT</a>
+<br />
+<a href=Category.jsp>Category</a>
+<br />
+<a href=ordered_products_list.jsp>Ordered products list</a>
+<br />
+<a href=cart.jsp>Cart</a>
+<br />
+<a href=recommendation.jsp>Recommend</a>
 <br />
 </body>
 </html>

@@ -37,21 +37,21 @@
 	}
 
 	boolean s_value=false;
-	if(m_sex.equals("F") || m_sex.equals("T")){
+	if(m_sex.equals("F") || m_sex.equals("M")){
 		s_value = false;
 	}
 	else{
 		s_value=true;
 	}
+	String query="UPDATE Customer set Address = '"  + m_address + "', Phone ='" + m_phone + 
+			"', Sex = '" + m_sex + "', Age = " +age + ", Job = " + m_job + ", Type ='" + m_type +"'"
+			+" WHERE Customer_ID = " + session.getAttribute("id");
 	
-	if( m_address.length() < 10 || m_phone.length() < 10 || s_value || (age <0 && age>100) ){
+	if( m_address.length() > 10 || m_phone.length() > 13 || s_value || (age <0 && age>100) || m_job.length() > 15){
 		response.sendRedirect("member_edit.jsp");
 	}
+	
 	else{
-		String query="UPDATE Customer set Address = "  + m_address + ", Phone =" + m_phone + 
-				", Sex = '" + m_sex + "', Age = " +age + ", Job = " + m_job + ", Type ='" + m_type +"'"
-				+" WHERE Customer_ID = " + session.getAttribute("id");
-		
 		pstmt = conn.prepareStatement(query);
 		try{
 			int ret = pstmt.executeUpdate();

@@ -20,6 +20,8 @@
     int res;
     Statement stmt=null;
     ResultSet rs;
+    ResultSet rs2;
+    
     String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     try{
         Class.forName(JDBC_DRIVER);
@@ -31,12 +33,12 @@
     id = (String)session.getAttribute("id");
     String query = null;
     String delivery = request.getParameter("delivery");
-	System.out.println(delivery);
+	//System.out.println(delivery);
 	
 	
 	java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyy-MM-dd");
 	 String today = formatter.format(new java.util.Date());
-	 System.out.println(today);
+	 //System.out.println(today);
 	 
 	 
 	query = "select OrderID from Orders";
@@ -49,9 +51,7 @@
 	System.out.println(orderid);
 	String OrderID ="order"+orderid;
 	System.out.println(OrderID);
-	query = "insert into Orders values('"+OrderID+"', '"+id+"', '"+today+"', '"+delivery+"')";
-	stmt = conn.createStatement();
-    res = stmt.executeUpdate(query);
+	
     
     
 	String cart = null;
@@ -68,32 +68,40 @@
 		int quantity = rs.getInt(2);
 		String code = rs.getString(3);
 		int unit=0, inventory=0;
+		System.out.println("code : "+code);
 		query = "select Unit, Inventory from Product where Product_code='"+code+"'";
 		pstmt = conn.prepareStatement(query);
-		rs = pstmt.executeQuery();
-		while(rs.next()){
-			unit = rs.getInt(1);
-			inventory=rs.getInt(2);
+		rs2 = pstmt.executeQuery();
+		while(rs2.next()){
+			unit = rs2.getInt(1);
+			inventory=rs2.getInt(2);
 		}
 		if(inventory < quantity * unit){
-			out.println("There is no sufficient inventory...");
+			out.println("There is no sufficient inventory for"+code+"<br/>");
 		}else{
+			query = "insert into Orders values('"+OrderID+"', '"+id+"', '"+today+"', '"+delivery+"')";
+    		stmt = conn.createStatement();
+    	    res = stmt.executeUpdate(query);
 			query = "insert into Ordered_products values('"+OrderID+"',"+quantity+",'"+code+"')";
-			System.out.println(query);
+			//System.out.println(query);
 			stmt = conn.createStatement();
 	    	res = stmt.executeUpdate(query);
 	    	if(res>0){
-	    		query = "delete from Contains where Cart_code='"+cart+"'";
+	    		query = "delete from Contains where Cart_code='"+cart+"' and Product_code='"+code+"'";
 	    		stmt = conn.createStatement();
 	    	    res = stmt.executeUpdate(query);
-	    		query = "delete from Cart_orders where Cart_code = '"+cart+"'";
+	    		query = "delete from Cart_orders where Cart_code = '"+cart+"' and Product_code='"+code+"'";
 	    		res = stmt.executeUpdate(query);		
-	    		out.println("Successfully Ordered!");
+	    		out.println("Successfully Ordered code "+code+"<br/>");
+	    		query = "update Product set Inventory=Inventory-"+quantity*unit+" where Product_code='"+code+"'";
+	    		System.out.println(query);
+	    		res = stmt.executeUpdate(query);
 	    	}else{
 	    		out.println("Error Ordering...");
 	    	}
 		}
 	}
+	
 	
 	
 %>

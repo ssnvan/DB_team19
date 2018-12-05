@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page language = "java" import="java.text.*, java.sql.*" %>
+<%@ page language = "java" import="java.util.ArrayList, java.util.List" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,14 +22,34 @@
 	
 	stmt = conn.createStatement();
 	
-	String query="SELECT O.Order_date, OP.Product_quantity, OP.Product_code from Orders O, Ordered_products OP " +
-			"where O.OrderID= (select OrderID from Orders where Customer_ID = " + session.getAttribute("id") + ")";
-	
+	String query="select OrderID from Orders where Customer_ID = " + session.getAttribute("id");
 	pstmt = conn.prepareStatement(query);
 	rs = pstmt.executeQuery();
+	
+	List<String> OrderID_list = new ArrayList<String>();
 	while(rs.next()){
-		String lists = "Date: " + rs.getString(1)+", ea. "+rs.getString(2)+", Products Name: "+rs.getString(3);
-		out.println(lists);
+		String lists = rs.getString(1);
+		OrderID_list.add(lists);
+	}
+	out.println("</br>");
+	
+	
+	
+	for(Object object : OrderID_list){
+		String element = (String) object;
+		
+		query="SELECT O.Order_date, OP.Product_quantity, OP.Product_code from Orders O, Ordered_products OP " +
+				"where O.OrderID='" + element +"' and O.OrderID = OP.OrderID" ; 
+		out.println("OrderID: " + element);
+		out.println("</br>");
+		
+		pstmt = conn.prepareStatement(query);
+		rs = pstmt.executeQuery();
+		while(rs.next()){
+			String lists = "Date: " + rs.getString(1)+", ea. "+rs.getString(2)+", Products Name: "+rs.getString(3);
+			out.println(lists);
+			out.println("</br>");
+		}
 		out.println("</br>");
 	}
 %>
